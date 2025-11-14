@@ -4,8 +4,7 @@ import { useInView } from "react-intersection-observer";
 import { MessageDisplay } from "./MessageDisplay";
 import { Avatar, Box, Button, ButtonBase, ClickAwayListener, List, ListItem, ListItemText, Popover, Tooltip, Typography } from "@mui/material";
 import { formatTimestamp } from "../../utils/time";
-import { getBaseApi } from "../../background";
-import { MyContext, getBaseApiReact } from "../../App";
+import { MyContext } from "../../App";
 import { generateHTML } from "@tiptap/react";
 import Highlight from "@tiptap/extension-highlight";
 import StarterKit from "@tiptap/starter-kit";
@@ -36,6 +35,8 @@ import level10Img from "../../assets/badges/level-10.png"
 import { Embed } from "../Embeds/Embed";
 import { buildImageEmbedLink, isHtmlString, messageHasImage } from "../../utils/chat";
 import CommentsDisabledIcon from '@mui/icons-material/CommentsDisabled';
+import { AvatarPreviewModal } from "./AvatarPreviewModal";
+import { getUserAvatarUrl } from "../../utils/avatar";
 
 const getBadgeImg = (level)=> {
   switch(level?.toString()){
@@ -89,6 +90,9 @@ export const MessageItem = React.memo(({
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedReaction, setSelectedReaction] = useState(null);
   const [userInfo, setUserInfo] = useState(null)
+  const [isAvatarPreviewOpen, setIsAvatarPreviewOpen] = useState(false);
+  const [avatarPreviewSrc, setAvatarPreviewSrc] = useState<string | null>(null);
+  const [isAvatarLoaded, setIsAvatarLoaded] = useState(false);
 
 
 useEffect(()=> {
@@ -151,10 +155,25 @@ const htmlReplyExpired = useMemo(() => {
 }, [replyExpiredMeta?.editTimestamp]);
 
 const userAvatarUrl = useMemo(()=> {
-  return message?.senderName ? `${getBaseApiReact()}/arbitrary/THUMBNAIL/${
-    message?.senderName
-  }/qortal_avatar?async=true` : ''
-}, [])
+  return getUserAvatarUrl(message?.senderName)
+}, [message?.senderName])
+
+useEffect(() => {
+  setIsAvatarLoaded(false);
+}, [userAvatarUrl]);
+
+const handleAvatarPreview = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
+  if (!userAvatarUrl || !isAvatarLoaded) return;
+  event.preventDefault();
+  event.stopPropagation();
+  setAvatarPreviewSrc(userAvatarUrl);
+  setIsAvatarPreviewOpen(true);
+}, [isAvatarLoaded, userAvatarUrl]);
+
+const closeAvatarPreview = useCallback(() => {
+  setIsAvatarPreviewOpen(false);
+  setAvatarPreviewSrc(null);
+}, []);
 
 const onSeenFunc = useCallback(()=> {
   onSeen(message.id);
@@ -168,6 +187,7 @@ const hasNoMessage =
 (!message?.text || message?.text === '<p></p>');
 
   return (
+    <>
     <MessageWragger lastMessage={lastSignature === message?.signature} isLast={isLast} onSeen={onSeenFunc}>
     {message?.divide && (
      <div className="unread-divider" id="unread-divider-id">
@@ -209,9 +229,19 @@ const hasNoMessage =
             sx={{
               backgroundColor: "#27282c",
               color: "white",
+              cursor: userAvatarUrl && isAvatarLoaded ? "pointer" : "default",
+              "& img": {
+                opacity: isAvatarLoaded ? 1 : 0,
+                transition: "opacity 0.2s ease",
+              },
             }}
             alt={message?.senderName}
             src={userAvatarUrl}
+            onClick={handleAvatarPreview}
+            imgProps={{
+              onLoad: () => setIsAvatarLoaded(true),
+              onError: () => setIsAvatarLoaded(false),
+            }}
           >
             {message?.senderName?.charAt(0)}
           </Avatar>
@@ -599,6 +629,13 @@ const hasNoMessage =
      
     </div>
     </MessageWragger>
+    <AvatarPreviewModal
+      open={isAvatarPreviewOpen}
+      src={avatarPreviewSrc}
+      alt={message?.senderName || message?.sender}
+      onClose={closeAvatarPreview}
+    />
+    </>
   );
 });
 
