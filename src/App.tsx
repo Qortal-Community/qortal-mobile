@@ -159,6 +159,7 @@ import { InstallPWA } from "./components/InstallPWA";
 import { QortPayment } from "./components/QortPayment";
 import { PdfViewer } from "./common/PdfViewer";
 import { DownloadWallet } from "./components/Auth/DownloadWallet";
+import { useThemeContext } from "./context/ThemeContext";
 
 
 type extStates =
@@ -393,6 +394,8 @@ function App() {
   const [extState, setExtstate] = useState<extStates>("not-authenticated");
   const [desktopViewMode, setDesktopViewMode] = useState("home");
   const {downloadResource} = useFetchResources()
+  const { themeMode } = useThemeContext();
+  const primaryLogo = themeMode === "dark" ? Logo1Dark : Logo1;
 
   const [backupjson, setBackupjson] = useState<any>(null);
   const [rawWallet, setRawWallet] = useState<any>(null);
@@ -2394,7 +2397,7 @@ function App() {
               height: "154px",
             }}
           >
-            <img src={Logo1Dark} className="base-image" />
+              <img src={primaryLogo} className="base-image" />
           </div>
           <Spacer height="38px" />
           <TextP
@@ -2456,7 +2459,7 @@ function App() {
               height: "154px",
             }}
           >
-            <img src={Logo1Dark} className="base-image" />
+              <img src={primaryLogo} className="base-image" />
           </div>
           <Spacer height="38px" />
           <TextP
@@ -2552,7 +2555,7 @@ function App() {
               height: "154px",
             }}
           >
-            <img src={Logo1Dark} className="base-image" />
+              <img src={primaryLogo} className="base-image" />
           </div>
           <Spacer height="35px" />
           <Box
@@ -2676,7 +2679,7 @@ function App() {
                   height: "154px",
                 }}
               >
-                <img src={Logo1Dark} className="base-image" />
+                  <img src={primaryLogo} className="base-image" />
               </div>
               <Spacer height="38px" />
               <TextP
