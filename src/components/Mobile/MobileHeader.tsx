@@ -431,7 +431,7 @@ const Header = ({
             zIndex: 6,
             width: "30px", // Adjust as needed
             height: "30px", // Adjust as needed
-            backgroundColor: "#232428", // Circle background
+            backgroundColor: "var(--bg-2)", // Circle background
             borderRadius: "50%",
             boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.3)", // Optional shadow for the circle
           }}

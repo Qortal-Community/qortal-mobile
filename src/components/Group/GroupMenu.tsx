@@ -51,7 +51,7 @@ export const GroupMenu = ({ setGroupSection, groupSection, setOpenManageMembers,
           borderRadius: "5px",
           fontSize: "12px",
           fontWeight: 600,
-          color: "var(--text-primary)",
+          color: "var(--text-contrast)",
           textTransform: "none",
           padding: '5px',
           height: '25px'
@@ -74,19 +74,19 @@ export const GroupMenu = ({ setGroupSection, groupSection, setOpenManageMembers,
             }}
           >
             {groupSection === "announcement" &&(
-                 <> <NotificationIcon2 color={hasUnreadAnnouncements || hasUnreadChat ? 'var(--unread)' : 'var(--text-primary)'}  /> {" Announcements"}</>
+                 <> <NotificationIcon2 color={hasUnreadAnnouncements || hasUnreadChat ? 'var(--unread)' : 'var(--text-contrast)'}  /> {" Announcements"}</>
             )}
              {groupSection === "chat" &&(
-                 <> <ChatIcon color={hasUnreadAnnouncements || hasUnreadChat ? 'var(--unread)' : 'var(--text-primary)'} /> {" Group Chats"}</>
+                 <> <ChatIcon color={hasUnreadAnnouncements || hasUnreadChat ? 'var(--unread)' : 'var(--text-contrast)'} /> {" Group Chats"}</>
             )}
              {groupSection === "forum" &&(
-                 <> <ThreadsIcon color={hasUnreadAnnouncements || hasUnreadChat ? 'var(--unread)' : 'var(--text-primary)'} /> {" Threads"}</>
+                 <> <ThreadsIcon color={hasUnreadAnnouncements || hasUnreadChat ? 'var(--unread)' : 'var(--text-contrast)'} /> {" Threads"}</>
             )}
                {groupSection === "adminSpace" &&(
-                 <> <AdminsIcon height={15} width={15} color={hasUnreadAnnouncements || hasUnreadChat ? 'var(--unread)' : 'var(--text-primary)'} /> {" Admins"}</>
+                 <> <AdminsIcon height={15} width={15} color={hasUnreadAnnouncements || hasUnreadChat ? 'var(--unread)' : 'var(--text-contrast)'} /> {" Admins"}</>
             )}
           </Box>
-          <ArrowDownIcon color="var(--text-primary)" />
+          <ArrowDownIcon color="var(--text-contrast)" />
         </Box>
       </Button>
       <Menu
@@ -110,7 +110,7 @@ export const GroupMenu = ({ setGroupSection, groupSection, setOpenManageMembers,
             paper: {
               sx: {
                 backgroundColor: 'var(--bg-primary)',
-                color: 'var(--text-primary)',
+                color: 'var(--text-contrast)',
                 width: '148px',
                 borderRadius: '5px'
               },
@@ -132,13 +132,13 @@ export const GroupMenu = ({ setGroupSection, groupSection, setOpenManageMembers,
             
             minWidth: '24px !important'
           }}>
-            <ChatIcon color={hasUnreadChat ? 'var(--unread)' : "var(--text-primary)"}  />
+            <ChatIcon color={hasUnreadChat ? 'var(--unread)' : "var(--text-contrast)"}  />
           </ListItemIcon>
           <ListItemText sx={{
                   "& .MuiTypography-root": {
                     fontSize: "12px",
                     fontWeight: 600,
-                    color: hasUnreadChat ? "var(--unread)" :"var(--text-primary)"
+                    color: hasUnreadChat ? "var(--unread)" :"var(--text-contrast)"
                   },
                 }} primary="Chat" />
         </MenuItem>
@@ -152,13 +152,13 @@ export const GroupMenu = ({ setGroupSection, groupSection, setOpenManageMembers,
             
             minWidth: '24px !important'
           }}>
-          <NotificationIcon2 color={hasUnreadAnnouncements ? 'var(--unread)' : "var(--text-primary)" } />
+          <NotificationIcon2 color={hasUnreadAnnouncements ? 'var(--unread)' : "var(--text-contrast)" } />
           </ListItemIcon>
           <ListItemText sx={{
                   "& .MuiTypography-root": {
                     fontSize: "12px",
                     fontWeight: 600,
-                    color: hasUnreadAnnouncements ? "var(--unread)" :"var(--text-primary)"
+                    color: hasUnreadAnnouncements ? "var(--unread)" :"var(--text-contrast)"
                   },
                 }} primary="Announcements" />
         </MenuItem>
@@ -171,7 +171,7 @@ export const GroupMenu = ({ setGroupSection, groupSection, setOpenManageMembers,
           <ListItemIcon sx={{
             minWidth: '24px !important'
           }}>
-                     <ThreadsIcon  color={"var(--text-primary)"} />
+                     <ThreadsIcon  color={"var(--text-contrast)"} />
 
           </ListItemIcon>
           <ListItemText sx={{
@@ -190,7 +190,7 @@ export const GroupMenu = ({ setGroupSection, groupSection, setOpenManageMembers,
           <ListItemIcon sx={{
             minWidth: '24px !important'
           }}>
-                     <MembersIcon sx={{ color: "var(--text-primary)" }} />
+                     <MembersIcon sx={{ color: "var(--text-contrast)" }} />
 
           </ListItemIcon>
           <ListItemText sx={{

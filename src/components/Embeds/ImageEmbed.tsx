@@ -49,7 +49,7 @@ export const ImageCard = ({
     return (
       <Card
         sx={{
-          backgroundColor: "#1F2023",
+          backgroundColor: "var(--bg-primary)",
           height: height,
           transition: "height 0.6s ease-in-out",
           display: 'flex',

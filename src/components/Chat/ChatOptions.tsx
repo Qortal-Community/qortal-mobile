@@ -219,7 +219,7 @@ export const ChatOptions = ({ messages : untransformedMessages, goToMessage, mem
           display: "flex",
           flexDirection: "column",
           // alignItems: 'center',
-          backgroundColor: "#1F2023",
+          backgroundColor: "var(--bg-primary)",
           borderBottomLeftRadius: "20px",
           borderTopLeftRadius: "20px",
           overflow: "auto",
@@ -358,7 +358,7 @@ export const ChatOptions = ({ messages : untransformedMessages, goToMessage, mem
           display: "flex",
           flexDirection: "column",
           // alignItems: 'center',
-          backgroundColor: "#1F2023",
+          backgroundColor: "var(--bg-primary)",
           borderBottomLeftRadius: "20px",
           borderTopLeftRadius: "20px",
           overflow: "auto",
@@ -579,7 +579,7 @@ export const ChatOptions = ({ messages : untransformedMessages, goToMessage, mem
           display: "flex",
           flexDirection: isMobile ? 'row' : "column",
           alignItems: "center",
-          backgroundColor: isMobile ? 'transparent' :"#1F2023",
+          backgroundColor: isMobile ? 'transparent' :"var(--bg-primary)",
           borderBottomLeftRadius: "20px",
           borderTopLeftRadius: "20px",
           minHeight: isMobile ? 'auto' : "200px",
@@ -644,7 +644,7 @@ const ShowMessage = ({message, goToMessage, messages, setMode})=> {
       >
         <Avatar
           sx={{
-            backgroundColor: "#27282c",
+            backgroundColor: "var(--bg-primary)",
             color: "white",
             height: "25px",
             width: "25px",

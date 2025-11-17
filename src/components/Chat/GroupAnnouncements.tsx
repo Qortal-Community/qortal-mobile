@@ -588,7 +588,7 @@ export const GroupAnnouncements = ({
           style={{
             // position: 'fixed',
             // bottom: '0px',
-            backgroundColor: "#232428",
+            backgroundColor: "var(--bg-2)",
             minHeight: isMobile ? "0px" : "150px",
             maxHeight: isMobile ? "auto" : "400px",
             display: "flex",

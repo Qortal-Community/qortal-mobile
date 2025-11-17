@@ -973,7 +973,7 @@ const sendMessage = async () => {
       <div style={{
         // position: 'fixed',
         // bottom: '0px',
-        backgroundColor: "#232428",
+        backgroundColor: "var(--bg-2)",
         minHeight: isMobile ? '0px' : '150px',
         maxHeight: isMobile ? 'auto' : '400px',
         display: 'flex',
@@ -1223,7 +1223,7 @@ const sendMessage = async () => {
   maxHeight: '100vh',
   width: '400px',
   maxWidth: '100vw',
-  backgroundColor: '#27282c',
+  backgroundColor: 'var(--bg-primary)',
   zIndex: 100,
   top: 0,
   bottom: 0,

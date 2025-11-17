@@ -2,6 +2,7 @@ import { ReactNode, createContext, useCallback, useContext, useEffect, useMemo, 
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material/styles";
 import { AppTheme, ThemeMode, darkTheme, lightTheme } from "../theme/themes";
+import { Preferences } from "@capacitor/preferences";
 
 type ThemeContextValue = {
   theme: AppTheme;
@@ -11,6 +12,7 @@ type ThemeContextValue = {
 };
 
 const STORAGE_KEY = "qortal-theme-mode";
+const PREFERENCES_KEY = "appearance";
 
 const ThemeContext = createContext<ThemeContextValue>({
   theme: darkTheme,
@@ -19,13 +21,20 @@ const ThemeContext = createContext<ThemeContextValue>({
   toggleTheme: () => {},
 });
 
-const getPreferredMode = (): ThemeMode => {
+const getStoredThemeMode = (): ThemeMode | null => {
   if (typeof window === "undefined") {
-    return "dark";
+    return null;
   }
   const stored = window.localStorage.getItem(STORAGE_KEY);
   if (stored === "light" || stored === "dark") {
     return stored;
+  }
+  return null;
+};
+
+const getSystemThemeMode = (): ThemeMode => {
+  if (typeof window === "undefined") {
+    return "dark";
   }
   const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)")?.matches;
   return prefersDark ? "dark" : "light";
@@ -35,6 +44,7 @@ const persistMode = (mode: ThemeMode) => {
   if (typeof window !== "undefined") {
     window.localStorage.setItem(STORAGE_KEY, mode);
   }
+  Preferences.set({ key: PREFERENCES_KEY, value: mode }).catch(() => {});
 };
 
 const applyCssVariables = (theme: AppTheme) => {
@@ -48,14 +58,20 @@ const applyCssVariables = (theme: AppTheme) => {
 };
 
 export const AppThemeProvider = ({ children }: { children: ReactNode }) => {
-  const [themeMode, setThemeModeState] = useState<ThemeMode>(() => getPreferredMode());
+  const initialStoredMode = getStoredThemeMode();
+  const [hasStoredPreference, setHasStoredPreference] = useState<boolean>(() => initialStoredMode !== null);
+  const [themeMode, setThemeModeState] = useState<ThemeMode>(
+    initialStoredMode ?? getSystemThemeMode()
+  );
 
   const setThemeMode = useCallback((mode: ThemeMode) => {
+    setHasStoredPreference(true);
     persistMode(mode);
     setThemeModeState(mode);
   }, []);
 
   const toggleTheme = useCallback(() => {
+    setHasStoredPreference(true);
     setThemeModeState((prev) => {
       const next = prev === "light" ? "dark" : "light";
       persistMode(next);
@@ -68,6 +84,21 @@ export const AppThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     applyCssVariables(theme);
   }, [theme]);
+
+  useEffect(() => {
+    if (hasStoredPreference) {
+      return;
+    }
+    if (typeof window === "undefined" || !window.matchMedia) {
+      return;
+    }
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (event: MediaQueryListEvent) => {
+      setThemeModeState(event.matches ? "dark" : "light");
+    };
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, [hasStoredPreference]);
 
   const muiTheme = useMemo(
     () =>

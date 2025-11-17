@@ -1,4 +1,10 @@
 <resources>
     <color name="white">#FFFFFF</color>
-    <!-- Define any additional colors here -->
+    <color name="colorPrimary">#232428</color>
+    <color name="colorPrimaryDark">#16171A</color>
+    <color name="colorAccent">#3CC4D5</color>
+
+    <color name="splash_background">#F6F7FB</color>
+    <color name="splash_foreground">#0A1B2E</color>
+    <color name="splash_icon_background">#E1EFF5</color>
 </resources>

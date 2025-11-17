@@ -758,7 +758,7 @@ const sortedList = Array.from(uniqueItems.values()).sort((a, b) =>
                   bottom: '2px',
                   right: '2px',
                   borderRadius: '5px',
-                  backgroundColor: '#27282c',
+                  backgroundColor: 'var(--bg-primary)',
                   display: 'flex',
                   gap: '10px',
                   alignItems: 'center',

@@ -103,7 +103,7 @@ export const PollCard = ({
     return (
       <Card
         sx={{
-          backgroundColor: "#1F2023",
+          backgroundColor: "var(--bg-primary)",
           height: isOpen ? "auto" : "150px",
         }}
       >
@@ -374,7 +374,7 @@ export const PollCard = ({
                 sx={{
                   mt: 1,
                   height: 10,
-                  backgroundColor: "#e0e0e0",
+                  backgroundColor: "var(--background-paper)",
                   borderRadius: 5,
                   overflow: "hidden",
                 }}

@@ -50,7 +50,7 @@ export const AnnouncementItem = ({ message, messageData, setSelectedAnnouncement
     <div
       style={{
         padding: "10px",
-        backgroundColor: "#232428",
+        backgroundColor: "var(--bg-2)",
         borderRadius: "7px",
         width: "95%",
         display: "flex",
@@ -67,7 +67,7 @@ export const AnnouncementItem = ({ message, messageData, setSelectedAnnouncement
         <WrapperUserAction disabled={myName === message?.name} address={undefined} name={message?.name}>
          <Avatar
       sx={{
-        backgroundColor: '#27282c',
+        backgroundColor: 'var(--bg-primary)',
         color: 'white'
       }}
         alt={message?.name}

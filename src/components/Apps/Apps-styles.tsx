@@ -192,7 +192,7 @@ import {
     alignItems: 'center',
     width: '100%',
     height: '60px',
-    backgroundColor: '#1F2023',
+    backgroundColor: 'var(--bg-primary)',
     padding: '0px 10px',
     position: "fixed",
     bottom: 0,

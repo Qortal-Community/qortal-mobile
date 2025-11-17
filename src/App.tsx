@@ -1988,7 +1988,7 @@ function App() {
             width: "100%",
             height: "100%",
             position: "fixed",
-            background: "#27282c",
+            background: "var(--bg-primary)",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -2772,7 +2772,7 @@ function App() {
                 <Box sx={{
                   textAlign: 'center',
                   width: '100%',
-                  backgroundColor: '#1f2023',
+                  backgroundColor: 'var(--bg-primary)',
                   borderRadius: '5px',
                   padding: '10px',
                 }}>
@@ -2883,7 +2883,7 @@ function App() {
             width: "100%",
             height: "100%",
             position: "fixed",
-            background: "#27282c",
+            background: "var(--bg-primary)",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",

@@ -1987,7 +1987,7 @@ export const Group = ({
                   <ListItemAvatar>
                     <Avatar
                       sx={{
-                        background: "#232428",
+                        background: "var(--bg-2)",
                         color: "white",
                         cursor: directAvatarUrl && isDirectAvatarLoaded ? "pointer" : "default",
                         "& img": {
@@ -2292,7 +2292,7 @@ export const Group = ({
                           sx={{
                             width: "40px",
                             height: "40px",
-                            background: "#232428",
+                            background: "var(--bg-2)",
                             color: "white",
                             cursor: groupAvatarUrl && isGroupAvatarLoaded ? "pointer" : "default",
                             "& img": {
@@ -2640,7 +2640,7 @@ export const Group = ({
                   right: "0px",
                   bottom: "0px",
                   top: "0px",
-                  background: "#27282c",
+                  background: "var(--bg-primary)",
                   zIndex: 5,
                   height: isMobile && `calc(${rootHeight} - 45px)`,
                 }}
@@ -2985,7 +2985,7 @@ export const Group = ({
                   right: "0px",
                   bottom: "0px",
                   top: "0px",
-                  background: "#27282c",
+                  background: "var(--bg-primary)",
                   zIndex: 5,
                   height: isMobile && `calc(${rootHeight} - 45px)`,
                 }}
