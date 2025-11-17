@@ -25,6 +25,7 @@ import { WalletsAppWrapper } from "./WalletsAppWrapper";
 
 import SettingsIcon from "@mui/icons-material/Settings";
 import { ChatGroup } from "../Chat/ChatGroup";
+import { AvatarPreviewModal } from "../Chat/AvatarPreviewModal";
 import { CreateCommonSecret } from "../Chat/CreateCommonSecret";
 import { base64ToUint8Array } from "../../qdn/encryption/group-encryption";
 import { uint8ArrayToObject } from "../../backgroundFunctions/encryption";
@@ -104,6 +105,7 @@ import { addressInfoControllerAtom, groupsPropertiesAtom, isOpenBlockedModalAtom
 import { sortArrayByTimestampAndGroupName } from "../../utils/time";
 import { BlockedUsersModal } from "./BlockedUsersModal";
 import { GlobalTouchMenu } from "../GlobalTouchMenu";
+import { getGroupAvatarUrl, getUserAvatarUrl } from "../../utils/avatar";
 
 // let touchStartY = 0;
 // let disablePullToRefresh = false;
@@ -473,6 +475,7 @@ export const Group = ({
   const lastGroupNotification = useRef<null | number>(null);
   const [timestampEnterData, setTimestampEnterData] = useState({});
     const groupsPropertiesRef = useRef({});
+    const groupOwnerNamesRef = useRef<Record<string, string>>({});
   const setMyGroupsWhereIAmAdmin = useSetRecoilState(myGroupsWhereIAmAdminAtom);
 
   const [chatMode, setChatMode] = useState("groups");
@@ -486,6 +489,7 @@ export const Group = ({
     React.useState(false);
   const [groupSection, setGroupSection] = React.useState("home");
   const [groupAnnouncements, setGroupAnnouncements] = React.useState({});
+  const [groupOwnerNames, setGroupOwnerNames] = useState<Record<string, string>>({});
   const [defaultThread, setDefaultThread] = React.useState(null);
   const [isOpenDrawer, setIsOpenDrawer] = React.useState(false);
   const setIsOpenBlockedUserModal = useSetRecoilState(isOpenBlockedModalAtom)
@@ -496,6 +500,9 @@ export const Group = ({
   const [mutedGroups, setMutedGroups] = useState([]);
   const [mobileViewMode, setMobileViewMode] = useState("home");
   const [mobileViewModeKeepOpen, setMobileViewModeKeepOpen] = useState("");
+  const [avatarPreviewData, setAvatarPreviewData] = useState<{ src: string; alt?: string } | null>(null);
+  const [directAvatarLoaded, setDirectAvatarLoaded] = useState<Record<string, boolean>>({});
+  const [groupAvatarLoaded, setGroupAvatarLoaded] = useState<Record<string, boolean>>({});
   const isFocusedRef = useRef(true);
   const timestampEnterDataRef = useRef({});
   const selectedGroupRef = useRef(null);
@@ -537,12 +544,64 @@ export const Group = ({
     }
     setIsOpenSideViewGroups((prev)=> !prev)
   }
+  const fetchGroupOwnerName = useCallback(
+    async (groupId?: string | number, ownerAddress?: string) => {
+      const normalizedGroupId =
+        typeof groupId === "number" ? groupId.toString() : groupId;
+      if (!ownerAddress || !normalizedGroupId || normalizedGroupId === "0") {
+        return;
+      }
+      if (groupOwnerNamesRef.current[normalizedGroupId]) return;
+      try {
+        const ownerName = await requestQueueMemberNames.enqueue(() => {
+          return getNameInfo(ownerAddress);
+        });
+        if (!ownerName) return;
+        groupOwnerNamesRef.current[normalizedGroupId] = ownerName;
+        setGroupOwnerNames((prev) => ({
+          ...prev,
+          [normalizedGroupId]: ownerName,
+        }));
+      } catch (error) {
+        // ignore lookup errors
+      }
+    },
+    [setGroupOwnerNames]
+  );
+  const openAvatarPreview = useCallback((src: string, alt?: string | null) => {
+    if (!src) return;
+    setAvatarPreviewData({ src, alt: alt || undefined });
+  }, []);
+
+  const closeAvatarPreview = useCallback(() => {
+    setAvatarPreviewData(null);
+  }, []);
+
+  const handleAvatarPreviewClick = useCallback(
+    (event: React.MouseEvent<HTMLElement>, src?: string | null, alt?: string | null) => {
+      if (!src) return;
+      event.preventDefault();
+      event.stopPropagation();
+      openAvatarPreview(src, alt);
+    },
+    [openAvatarPreview]
+  );
   useEffect(()=> {
     timestampEnterDataRef.current = timestampEnterData
   }, [timestampEnterData])
    useEffect(() => {
     groupsPropertiesRef.current = groupsProperties;
   }, [groupsProperties]);
+
+  useEffect(() => {
+    groupOwnerNamesRef.current = groupOwnerNames;
+  }, [groupOwnerNames]);
+
+  useEffect(() => {
+    Object.entries(groupsProperties || {}).forEach(([groupId, value]: [string, any]) => {
+      fetchGroupOwnerName(groupId, value?.owner);
+    });
+  }, [groupsProperties, fetchGroupOwnerName]);
 
   useEffect(() => {
     isFocusedRef.current = isFocused;
@@ -1794,12 +1853,6 @@ export const Group = ({
     }
   };
 
-  const getUserAvatarUrl = useCallback((name?: string) => {
-    return name
-      ? `${getBaseApiReact()}/arbitrary/THUMBNAIL/${name}/qortal_avatar?async=true`
-      : '';
-  }, []);
-
   const renderDirects = () => {
     return (
       <div
@@ -1875,8 +1928,13 @@ export const Group = ({
             // left: chatMode === "groups" && "-1000px",
           }}
         >
-          {directs.map((direct: any) => (
+          {directs.map((direct: any) => {
+            const directAvatarUrl = getUserAvatarUrl(direct?.name);
+            const directKey = direct?.address || direct?.name || direct?.timestamp;
+            const isDirectAvatarLoaded = directKey ? directAvatarLoaded[directKey] : false;
+            return (
             <List
+              key={directKey}
               sx={{
                 width: "100%",
               }}
@@ -1931,9 +1989,38 @@ export const Group = ({
                       sx={{
                         background: "#232428",
                         color: "white",
+                        cursor: directAvatarUrl && isDirectAvatarLoaded ? "pointer" : "default",
+                        "& img": {
+                          opacity: isDirectAvatarLoaded ? 1 : 0,
+                          transition: "opacity 0.2s ease",
+                        },
                       }}
                       alt={direct?.name || direct?.address}
-                      src={getUserAvatarUrl(direct?.name)}
+                      src={directAvatarUrl || undefined}
+                      onClick={(event) => {
+                        if (!directAvatarUrl || !isDirectAvatarLoaded) return;
+                        handleAvatarPreviewClick(
+                          event,
+                          directAvatarUrl,
+                          direct?.name || direct?.address
+                        );
+                      }}
+                      imgProps={{
+                        onLoad: () => {
+                          if (!directKey) return;
+                          setDirectAvatarLoaded((prev) => {
+                            if (prev[directKey]) return prev;
+                            return { ...prev, [directKey]: true };
+                          });
+                        },
+                        onError: () => {
+                          if (!directKey) return;
+                          setDirectAvatarLoaded((prev) => {
+                            if (prev[directKey] === false) return prev;
+                            return { ...prev, [directKey]: false };
+                          });
+                        },
+                      }}
                     >
                       {(direct?.name || direct?.address)?.charAt(0)}
                     </Avatar>
@@ -1981,7 +2068,8 @@ export const Group = ({
                 </Box>
               </ListItem>
             </List>
-          ))}
+          );
+        })}
         </div>
         <div
           style={{
@@ -2122,8 +2210,23 @@ export const Group = ({
             left: chatMode === "directs" && "-1000px",
           }}
         >
-          {visibleGroups.map((group: any) => (
+          {visibleGroups.map((group: any) => {
+            const groupIdKey =
+              typeof group?.groupId === "number"
+                ? group?.groupId?.toString()
+                : group?.groupId;
+            const ownerName =
+              (groupIdKey && groupOwnerNames[groupIdKey]) || null;
+            const groupAvatarUrl = getGroupAvatarUrl(
+              group?.groupId,
+              ownerName
+            );
+            const isGroupLocked =
+              groupsProperties[group?.groupId]?.isOpen === false;
+            const isGroupAvatarLoaded = groupIdKey ? groupAvatarLoaded[groupIdKey] : false;
+            return (
             <List
+              key={group?.groupId}
               sx={{
                 width: "100%",
               }}
@@ -2178,37 +2281,85 @@ export const Group = ({
                     }}
                   >
                     <ListItemAvatar>
-                      {groupsProperties[group?.groupId]?.isOpen === false ? (
-                        <Box sx={{
-                          width: '40px',
-                          height: '40px',
-                          borderRadius: '50%',
-                          background: "#232428",
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}>
-                        <LockIcon sx={{
-                          color: 'var(--green)'
-                        }} />
+                      <Box
+                        sx={{
+                          position: "relative",
+                          width: "40px",
+                          height: "40px",
+                        }}
+                      >
+                        <Avatar
+                          sx={{
+                            width: "40px",
+                            height: "40px",
+                            background: "#232428",
+                            color: "white",
+                            cursor: groupAvatarUrl && isGroupAvatarLoaded ? "pointer" : "default",
+                            "& img": {
+                              opacity: isGroupAvatarLoaded ? 1 : 0,
+                              transition: "opacity 0.2s ease",
+                            },
+                          }}
+                          alt={group?.groupName}
+                          src={groupAvatarUrl || undefined}
+                          onClick={(event) => {
+                            if (!groupAvatarUrl || !isGroupAvatarLoaded) return;
+                            handleAvatarPreviewClick(
+                              event,
+                              groupAvatarUrl,
+                              group?.groupName
+                            );
+                          }}
+                          imgProps={{
+                            onLoad: () => {
+                              if (!groupIdKey) return;
+                              setGroupAvatarLoaded((prev) => {
+                                if (prev[groupIdKey]) return prev;
+                                return { ...prev, [groupIdKey]: true };
+                              });
+                            },
+                            onError: () => {
+                              if (!groupIdKey) return;
+                              setGroupAvatarLoaded((prev) => {
+                                if (prev[groupIdKey] === false) return prev;
+                                return { ...prev, [groupIdKey]: false };
+                              });
+                            },
+                          }}
+                        >
+                          {group?.groupName?.charAt(0)?.toUpperCase()}
+                        </Avatar>
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            bottom: "-4px",
+                            right: "-4px",
+                            width: "20px",
+                            height: "20px",
+                            borderRadius: "50%",
+                            background: "#1b1c20",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {isGroupLocked ? (
+                            <LockIcon
+                              sx={{
+                                color: "var(--green)",
+                                fontSize: "14px",
+                              }}
+                            />
+                          ) : (
+                            <NoEncryptionGmailerrorredIcon
+                              sx={{
+                                color: "var(--danger)",
+                                fontSize: "14px",
+                              }}
+                            />
+                          )}
                         </Box>
-                      ): (
-                        <Box sx={{
-                          width: '40px',
-                          height: '40px',
-                          borderRadius: '50%',
-                          background: "#232428",
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}>
-                        <NoEncryptionGmailerrorredIcon sx={{
-                          color: 'var(--danger)'
-                        }} />
-                        </Box>
-                    
-                      )}
-                      
+                      </Box>
                     </ListItemAvatar>
                     <ListItemText
                       primary={group.groupId === '0' ? 'General' : group.groupName}
@@ -2262,7 +2413,8 @@ export const Group = ({
                 </ContextMenu>
               </ListItem>
             </List>
-          ))}
+          );
+        })}
         </div>
         <div
           style={{
@@ -3020,11 +3172,17 @@ export const Group = ({
           )}
         </>
       )}
-       {(isMobile &&  mobileViewMode === "apps" && appsMode !== 'home') &&  !mobileViewModeKeepOpen && (
+      {(isMobile &&  mobileViewMode === "apps" && appsMode !== 'home') &&  !mobileViewModeKeepOpen && (
         <>
           <AppsNavBar appsMode={appsMode} />
         </>
       )}
+      <AvatarPreviewModal
+        open={Boolean(avatarPreviewData)}
+        src={avatarPreviewData?.src || null}
+        alt={avatarPreviewData?.alt}
+        onClose={closeAvatarPreview}
+      />
     </>
   );
 };
