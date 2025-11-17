@@ -13,3 +13,7 @@ Qortal Mobile is one of three (hence 'trifecta') interfaces that are newly creat
 More details will be published in this readme and in newly created wikis in the future. 
 
 Reach out via the chat on https://qortal.dev with any issues running this application, and/or communicate to the Qortal community in any of the available community locations. 
+
+## Development
+
+Developers can build Qortal Mobile from source by following the steps in [docs/development.md](./docs/development.md).
