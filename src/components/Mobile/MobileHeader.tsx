@@ -21,6 +21,7 @@ import { MessagingIcon } from "../../assets/Icons/MessagingIcon";
 import { MessagingIcon2 } from "../../assets/Icons/MessagingIcon2";
 import { HubsIcon } from "../../assets/Icons/HubsIcon";
 import { Save } from "../Save/Save";
+import NodeStatusIndicator from "../NodeStatus/NodeStatusIndicator";
 import CloseFullscreenIcon from '@mui/icons-material/CloseFullscreen';
 import { useRecoilState } from "recoil";
 import { fullScreenAtom, hasSettingsChangedAtom } from "../../atoms/global";
@@ -75,53 +76,58 @@ const Header = ({
       >
         <Toolbar
           sx={{
-            justifyContent: "space-between",
+            display: "flex",
+            alignItems: "center",
             padding: "0 16px",
             height: "45px",
             minHeight: "45px",
+            gap: "12px",
           }}
         >
-          {/* Left Home Icon */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: "18px",
-              width: "75px",
+              gap: "12px",
+              flex: 1,
             }}
           >
+            <NodeStatusIndicator />
             <ButtonBase
-              
-           
-            
               onClick={() => {
                 setMobileViewModeKeepOpen("");
                 goToHome();
               }}
-              // onClick={onHomeClick}
             >
               <HomeIcon height={20} width={27} color="rgba(145, 145, 147, 1)" />
             </ButtonBase>
-            <ButtonBase
-             
-              onClick={handleClick}
-            >
-              <NotificationIcon height={20} width={21} color={hasNewPayment || hasUnreadDirects || hasUnreadGroups ? "var(--unread)" : "rgba(145, 145, 147, 1)"} />
+            <ButtonBase onClick={handleClick}>
+              <NotificationIcon
+                height={20}
+                width={21}
+                color={
+                  hasNewPayment || hasUnreadDirects || hasUnreadGroups
+                    ? "var(--unread)"
+                    : "rgba(145, 145, 147, 1)"
+                }
+              />
             </ButtonBase>
             {fullScreen && (
-               <ButtonBase onClick={()=> {
-                exitFullScreen()
-                setFullScreen(false)
-               }}>
-               <CloseFullscreenIcon sx={{
-                 color: 'rgba(145, 145, 147, 1)'
-               }} />
-             </ButtonBase>
+              <ButtonBase
+                onClick={() => {
+                  exitFullScreen();
+                  setFullScreen(false);
+                }}
+              >
+                <CloseFullscreenIcon
+                  sx={{
+                    color: "rgba(145, 145, 147, 1)",
+                  }}
+                />
+              </ButtonBase>
             )}
-           
           </Box>
 
-          {/* Center Title */}
           <Typography
             variant="h6"
             sx={{
@@ -129,6 +135,8 @@ const Header = ({
               fontWeight: 700,
               letterSpacing: "2px",
               fontSize: "13px",
+              flex: "0 0 auto",
+              textAlign: "center",
             }}
           >
             QORTAL
@@ -138,25 +146,26 @@ const Header = ({
               display: "flex",
               alignItems: "center",
               gap: "18px",
-              width: "75px",
+              flex: 1,
               justifyContent: "flex-end",
             }}
           >
-            {/* Right Logout Icon */}
-
             <ButtonBase
               onClick={() => {
                 setMobileViewModeKeepOpen("messaging");
               }}
             >
-              <MessagingIcon2    height={20}              color={hasUnreadDirects ? "var(--unread)" : "rgba(145, 145, 147, 1)"}
-                
+              <MessagingIcon2
+                height={20}
+                color={
+                  hasUnreadDirects
+                    ? "var(--unread)"
+                    : "rgba(145, 145, 147, 1)"
+                }
               />
             </ButtonBase>
             <Save myName={myName} />
-            <ButtonBase
-              onClick={logoutFunc}
-            >
+            <ButtonBase onClick={logoutFunc}>
               <LogoutIcon
                 height={20}
                 width={21}
@@ -314,39 +323,40 @@ const Header = ({
       >
         <Toolbar
           sx={{
-            justifyContent: "space-between",
+            display: "flex",
+            alignItems: "center",
             padding: "0 16px",
             height: "60px",
+            gap: "12px",
           }}
         >
-          {/* Left Home Icon */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               gap: "18px",
-              width: "75px",
+              flex: 1,
             }}
           >
-          <ButtonBase
-
-            onClick={goToHome}
-            // onClick={onHomeClick}
-          >
-            <HomeIcon color="rgba(145, 145, 147, 1)" />
-          </ButtonBase>
-          {fullScreen && (
-               <ButtonBase onClick={()=> {
-                exitFullScreen()
-                setFullScreen(false)
-               }}>
-               <CloseFullscreenIcon sx={{
-                 color: 'rgba(145, 145, 147, 1)'
-               }} />
-             </ButtonBase>
+            <NodeStatusIndicator />
+            <ButtonBase onClick={goToHome}>
+              <HomeIcon color="rgba(145, 145, 147, 1)" />
+            </ButtonBase>
+            {fullScreen && (
+              <ButtonBase
+                onClick={() => {
+                  exitFullScreen();
+                  setFullScreen(false);
+                }}
+              >
+                <CloseFullscreenIcon
+                  sx={{
+                    color: "rgba(145, 145, 147, 1)",
+                  }}
+                />
+              </ButtonBase>
             )}
-            </Box>
-          {/* Center Title */}
+          </Box>
           <Typography
             variant="h6"
             sx={{
@@ -354,6 +364,8 @@ const Header = ({
               fontWeight: 700,
               letterSpacing: "2px",
               fontSize: "13px",
+              flex: "0 0 auto",
+              textAlign: "center",
             }}
           >
             QORTAL
@@ -363,20 +375,14 @@ const Header = ({
               display: "flex",
               alignItems: "center",
               gap: "30px",
-              width: "75px",
+              flex: 1,
               justifyContent: "flex-end",
             }}
           >
-          {/* Right Logout Icon */}
-           <Save myName={myName} />
-          <ButtonBase
-            onClick={logoutFunc}
-
-
-            // onClick={onLogoutClick}
-          >
-            <LogoutIcon color="rgba(145, 145, 147, 1)" />
-          </ButtonBase>
+            <Save myName={myName} />
+            <ButtonBase onClick={logoutFunc}>
+              <LogoutIcon color="rgba(145, 145, 147, 1)" />
+            </ButtonBase>
           </Box>
         </Toolbar>
       </AppBar>
