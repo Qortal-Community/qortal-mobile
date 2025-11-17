@@ -1101,13 +1101,14 @@ export async function clearAllNotificationsCase(request, event) {
 
 export async function setGroupDataCase(request, event) {
   try {
-    const { groupId, secretKeyData, secretKeyResource, admins } =
+    const { groupId, secretKeyData, secretKeyResource, admins, secretKeyObject } =
       request.payload;
     const response = await setGroupData({
       groupId,
       secretKeyData,
       secretKeyResource,
       admins,
+      secretKeyObject,
     });
 
     event.source.postMessage(

@@ -901,6 +901,7 @@ export const Group = ({
         secretKeyData: data,
         secretKeyResource: publish,
         admins: { names, addresses, both },
+        secretKeyObject: decryptedKeyToObject,
       }).catch((error) => {
           console.error("Failed to set group data:", error.message || "An error occurred");
         });
