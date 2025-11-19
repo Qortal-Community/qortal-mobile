@@ -5,6 +5,7 @@ import {
   ButtonBase,
   Typography,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { Home, Groups, Message, ShowChart } from "@mui/icons-material";
 import Box from "@mui/material/Box";
@@ -20,6 +21,8 @@ import { MessagingIcon } from "../../assets/Icons/MessagingIcon";
 import { executeEvent } from "../../utils/events";
 
 const IconWrapper = ({ children, label, color }) => {
+  const theme = useTheme();
+  const resolvedColor = color || theme.palette.text.secondary;
   return (
     <Box
       sx={{
@@ -36,7 +39,7 @@ const IconWrapper = ({ children, label, color }) => {
           fontFamily: "Inter",
           fontSize: "12px",
           fontWeight: 500,
-          color: color,
+          color: resolvedColor,
           wordBreak: 'normal'
         }}
       >
@@ -70,20 +73,24 @@ export const MobileFooter = ({
 }) => {
   const [value, setValue] = React.useState(0);
   const isSmallScreen = useMediaQuery("(max-width:370px)"); // Define a custom breakpoint
+  const theme = useTheme();
+  const muted = theme.palette.text.secondary;
+  const active = theme.palette.text.primary;
   return (
     <Box
       sx={{
         width: "100%",
         position: "fixed",
         bottom: 0,
-        backgroundColor: "var(--bg-primary)",
+        backgroundColor: theme.palette.background.paper,
         display: "flex",
         alignItems: "center",
         height: "67px", // Footer height
         zIndex: 1,
         borderTopRightRadius: "25px",
         borderTopLeftRadius: "25px",
-        boxShadow: '0px -2px 10px rgba(0, 0, 0, 0.1)',
+        boxShadow: `0px -2px 10px ${theme.palette.mode === "light" ? "rgba(0,0,0,0.1)" : "rgba(0,0,0,0.4)"}`,
+        borderTop: `1px solid ${theme.palette.divider}`,
       }}
     >
       <BottomNavigation
@@ -100,16 +107,16 @@ export const MobileFooter = ({
           icon={
             <>
             {isSmallScreen ? (
-              <WalletIcon color="rgba(250, 250, 250, 0.5)" />
+              <WalletIcon color={muted} />
             ) : (
-              <IconWrapper color="rgba(250, 250, 250, 0.5)" label="Wallet">
-              <WalletIcon color="rgba(250, 250, 250, 0.5)" />
+              <IconWrapper color={muted} label="Wallet">
+              <WalletIcon color={muted} />
             </IconWrapper>
             )}
             </>
             
           }
-          sx={{ color: value === 0 ? "white" : "gray", padding: "0px 10px" }}
+          sx={{ color: value === 0 ? active : muted, padding: "0px 10px" }}
         />
         <BottomNavigationAction
           onClick={() => {
@@ -118,17 +125,17 @@ export const MobileFooter = ({
           icon={
             <>
               {isSmallScreen ? (
-              <HubsIcon color={hasUnreadGroups ? "var(--unread)" : "rgba(250, 250, 250, 0.5)"} />
+              <HubsIcon color={hasUnreadGroups ? "var(--unread)" : muted} />
               ) : (
-              <IconWrapper color="rgba(250, 250, 250, 0.5)" label="Groups">
-              <HubsIcon color={hasUnreadGroups ? "var(--unread)" : "rgba(250, 250, 250, 0.5)"} />
+              <IconWrapper color={muted} label="Groups">
+              <HubsIcon color={hasUnreadGroups ? "var(--unread)" : muted} />
             </IconWrapper>
             )}
             </>
            
           }
           sx={{
-            color: value === 0 ? "white" : "gray",
+            color: value === 0 ? active : muted,
             paddingLeft: isSmallScreen ? '0px' :  "10px",
             paddingRight: isSmallScreen ? '30px' : "42px",
           }}
@@ -144,12 +151,12 @@ export const MobileFooter = ({
           transform: "translateX(-50%)", // Center horizontally
           width: "59px",
           height: "59px",
-          backgroundColor: "var(--bg-primary)",
+          backgroundColor: theme.palette.background.default,
           borderRadius: "50%",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)", // Subtle shadow for the floating effect
+          boxShadow: `0 4px 10px ${theme.palette.mode === "light" ? "rgba(0,0,0,0.3)" : "rgba(0,0,0,0.6)"}`, // Subtle shadow for the floating effect
           zIndex: 3,
         }}
       >
@@ -166,7 +173,7 @@ export const MobileFooter = ({
           sx={{
             width: "49px", // Slightly smaller inner circle
             height: "49px",
-            backgroundColor: "var(--bg-primary)",
+            backgroundColor: theme.palette.background.default,
             borderRadius: "50%",
             display: "flex",
             justifyContent: "center",
@@ -192,18 +199,18 @@ export const MobileFooter = ({
           icon={
             <>
             {isSmallScreen ? (
-                         <MessagingIcon color={hasUnreadDirects ? "var(--unread)" :"rgba(250, 250, 250, 0.5)"} />
+                         <MessagingIcon color={hasUnreadDirects ? "var(--unread)" : muted} />
 
             ) : (
-              <IconWrapper label="Messaging" color="rgba(250, 250, 250, 0.5)">
-              <MessagingIcon color={hasUnreadDirects ? "var(--unread)" :"rgba(250, 250, 250, 0.5)"} />
+              <IconWrapper label="Messaging" color={muted}>
+              <MessagingIcon color={hasUnreadDirects ? "var(--unread)" : muted} />
             </IconWrapper>
           )}
           </>
            
           }
           sx={{
-            color: value === 2 ? "white" : "gray",
+            color: value === 2 ? active : muted,
             paddingLeft: isSmallScreen ? '30px' : "55px",
             paddingRight: isSmallScreen ? '0px' : "10px",
           }}
@@ -218,16 +225,16 @@ export const MobileFooter = ({
           
              <>
              {isSmallScreen ? (
-              <TradingIcon color="rgba(250, 250, 250, 0.5)" />
+              <TradingIcon color={muted} />
  
              ) : (
-              <IconWrapper label="Trading" color="rgba(250, 250, 250, 0.5)">
-              <TradingIcon color="rgba(250, 250, 250, 0.5)" />
+              <IconWrapper label="Trading" color={muted}>
+              <TradingIcon color={muted} />
             </IconWrapper>
            )}
            </>
           }
-          sx={{ color: value === 3 ? "white" : "gray", padding: "0px 10px" }}
+          sx={{ color: value === 3 ? active : muted, padding: "0px 10px" }}
         />
       </BottomNavigation>
     </Box>

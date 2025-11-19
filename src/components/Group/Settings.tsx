@@ -27,6 +27,7 @@ import { getFee } from "../../background";
 import { LoadingButton } from "@mui/lab";
 import { executeEvent, subscribeToEvent, unsubscribeFromEvent } from "../../utils/events";
 import { useThemeContext } from "../../context/ThemeContext";
+import ThemeManagerDialog from "../Theme/ThemeManager";
 
 function a11yProps(index: number) {
   return {
@@ -84,7 +85,8 @@ export const Settings = ({
 }) => {
   const [checked, setChecked] = React.useState(false);
   const [generalChatEnabled, setGeneralChatEnabled] = useState(true);
-  const { themeMode, setThemeMode } = useThemeContext();
+  const { themeMode, setThemeMode, themes, currentThemeId } = useThemeContext();
+  const [isThemeManagerOpen, setThemeManagerOpen] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
@@ -268,11 +270,31 @@ export const Settings = ({
               <ToggleButton value="light">Light</ToggleButton>
               <ToggleButton value="dark">Dark</ToggleButton>
             </ToggleButtonGroup>
+            <Box mt={3}>
+              <Typography
+                variant="body2"
+                sx={{ color: "text.secondary", mb: 1 }}
+              >
+                Theme preset:{" "}
+                {themes.find((theme) => theme.id === currentThemeId)?.name ||
+                  "Qortal"}
+              </Typography>
+              <Button
+                variant="outlined"
+                onClick={() => setThemeManagerOpen(true)}
+              >
+                Open Theme Manager
+              </Button>
+            </Box>
           </Box>
         </Box>
 
       </Dialog>
 
+      <ThemeManagerDialog
+        open={isThemeManagerOpen}
+        onClose={() => setThemeManagerOpen(false)}
+      />
     </React.Fragment>
   );
 };
