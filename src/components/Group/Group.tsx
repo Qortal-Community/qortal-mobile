@@ -1970,11 +1970,11 @@ export const Group = ({
                   width: "100%",
                   flexDirection: "column",
                   cursor: "pointer",
-                  border: "1px #232428 solid",
+                  border: "1px solid var(--sidebar-border)",
                   padding: "2px",
                   borderRadius: "2px",
                   background:
-                    direct?.address === selectedDirect?.address && "white",
+                    direct?.address === selectedDirect?.address && "var(--background-paper)",
                 }}
               >
                 <Box
@@ -2261,11 +2261,11 @@ export const Group = ({
                   width: "100%",
                   flexDirection: "column",
                   cursor: "pointer",
-                  border: "1px #232428 solid",
+                  border: "1px solid var(--sidebar-border)",
                   padding: "2px",
                   borderRadius: "2px",
                   background:
-                    group?.groupId === selectedGroup?.groupId && "white",
+                    group?.groupId === selectedGroup?.groupId && "var(--background-paper)",
                 }}
               >
                 <ContextMenu
@@ -2337,7 +2337,7 @@ export const Group = ({
                             width: "20px",
                             height: "20px",
                             borderRadius: "50%",
-                            background: "#1b1c20",
+                            background: "var(--background-default)",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",

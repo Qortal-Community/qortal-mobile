@@ -10,7 +10,7 @@ import {
   settingsQDNLastUpdatedAtom,
   sortablePinnedAppsAtom,
 } from "../../atoms/global";
-import { Box, Button, ButtonBase, Popover, Typography } from "@mui/material";
+import { Box, Button, ButtonBase, Popover, Typography, useTheme } from "@mui/material";
 import { objectToBase64 } from "../../qdn/encryption/group-encryption";
 import { MyContext } from "../../App";
 import { getFee } from "../../background";
@@ -59,6 +59,7 @@ export const handleImportClick = async () => {
 
 
 export const Save = ({ isDesktop, disableWidth, myName }) => {
+  const theme = useTheme();
   const [pinnedApps, setPinnedApps] = useRecoilState(sortablePinnedAppsAtom);
   const [settingsQdnLastUpdated, setSettingsQdnLastUpdated] = useRecoilState(
     settingsQDNLastUpdatedAtom
@@ -221,10 +222,10 @@ export const Save = ({ isDesktop, disableWidth, myName }) => {
             <SaveIcon
               color={
                 settingsQdnLastUpdated === -100
-                  ? "#8F8F91"
+                  ? theme.palette.text.secondary
                   : hasChanged && !isLoading
-                  ? "#5EB049"
-                  : "#8F8F91"
+                  ? theme.palette.success.main
+                  : theme.palette.text.secondary
               }
             />
           </IconWrapper>
@@ -232,10 +233,10 @@ export const Save = ({ isDesktop, disableWidth, myName }) => {
           <SaveIcon
             color={
               settingsQdnLastUpdated === -100
-                ? "#8F8F91"
+                ? theme.palette.text.secondary
                 : hasChanged && !isLoading
-                ? "#5EB049"
-                : "#8F8F91"
+                ? theme.palette.success.main
+                : theme.palette.text.secondary
             }
           />
         )}

@@ -17,6 +17,7 @@ import {
   Table,
   CircularProgress,
   Autocomplete,
+  useTheme,
 } from "@mui/material";
 import { getAddressInfo, getNameOrAddress } from "../../background";
 import { getBaseApiReact } from "../../App";
@@ -40,6 +41,7 @@ function formatAddress(str) {
 }
 
 export const UserLookup = ({ isOpenDrawerLookup, setIsOpenDrawerLookup }) => {
+  const theme = useTheme();
   const [nameOrAddress, setNameOrAddress] = useState("");
   const [inputValue, setInputValue] = useState('');
   const { results, isLoading } = useNameSearch(inputValue);
@@ -348,14 +350,14 @@ export const UserLookup = ({ isOpenDrawerLookup, setIsOpenDrawerLookup }) => {
                   <Typography>Address</Typography>
                 </Box>
                 <Tooltip
-                  title={
-                    <span
-                      style={{
-                        color: "white",
-                        fontSize: "14px",
-                        fontWeight: 700,
-                      }}
-                    >
+                        title={
+                          <span
+                            style={{
+                              color: theme.palette.text.primary,
+                              fontSize: "14px",
+                              fontWeight: 700,
+                            }}
+                          >
                       copy address
                     </span>
                   }
@@ -365,13 +367,13 @@ export const UserLookup = ({ isOpenDrawerLookup, setIsOpenDrawerLookup }) => {
                   slotProps={{
                     tooltip: {
                       sx: {
-                        color: "#ffffff",
-                        backgroundColor: "#444444",
+                        color: theme.palette.text.primary,
+                        backgroundColor: theme.palette.background.paper,
                       },
                     },
                     arrow: {
                       sx: {
-                        color: "#444444",
+                        color: theme.palette.background.paper,
                       },
                     },
                   }}
@@ -480,13 +482,13 @@ export const UserLookup = ({ isOpenDrawerLookup, setIsOpenDrawerLookup }) => {
                          slotProps={{
                            tooltip: {
                              sx: {
-                               color: "#ffffff",
-                               backgroundColor: "#444444",
+                               color: theme.palette.text.primary,
+                               backgroundColor: theme.palette.background.paper,
                              },
                            },
                            arrow: {
                              sx: {
-                               color: "#444444",
+                               color: theme.palette.background.paper,
                              },
                            },
                          }}
@@ -507,7 +509,7 @@ export const UserLookup = ({ isOpenDrawerLookup, setIsOpenDrawerLookup }) => {
                          title={
                            <span
                              style={{
-                               color: "white",
+                               color: theme.palette.text.primary,
                                fontSize: "14px",
                                fontWeight: 700,
                              }}
@@ -521,13 +523,13 @@ export const UserLookup = ({ isOpenDrawerLookup, setIsOpenDrawerLookup }) => {
                          slotProps={{
                            tooltip: {
                              sx: {
-                               color: "#ffffff",
-                               backgroundColor: "#444444",
+                               color: theme.palette.text.primary,
+                               backgroundColor: theme.palette.background.paper,
                              },
                            },
                            arrow: {
                              sx: {
-                               color: "#444444",
+                               color: theme.palette.background.paper,
                              },
                            },
                          }}

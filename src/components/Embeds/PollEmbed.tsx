@@ -12,7 +12,7 @@ import {
   Box,
   ButtonBase,
   Divider,
-
+  useTheme,
 } from "@mui/material";
 import { getNameInfo } from "../Group/Group";
 import PollIcon from "@mui/icons-material/Poll";
@@ -33,6 +33,7 @@ export const PollCard = ({
     isLoadingParent,
     errorMsg,
   }) => {
+    const theme = useTheme();
     const [selectedOption, setSelectedOption] = useState("");
     const [ownerName, setOwnerName] = useState("");
     const [showResults, setShowResults] = useState(false);
@@ -103,7 +104,7 @@ export const PollCard = ({
     return (
       <Card
         sx={{
-          backgroundColor: "var(--bg-primary)",
+          backgroundColor: theme.palette.background.paper,
           height: isOpen ? "auto" : "150px",
         }}
       >
@@ -124,7 +125,7 @@ export const PollCard = ({
           >
             <PollIcon
               sx={{
-                color: "white",
+                color: theme.palette.text.primary,
               }}
             />
             <Typography>POLL embed</Typography>
@@ -141,7 +142,7 @@ export const PollCard = ({
                 onClick={refresh}
                 sx={{
                   fontSize: "24px",
-                  color: "white",
+                  color: theme.palette.text.primary,
                 }}
               />
             </ButtonBase>
@@ -151,7 +152,7 @@ export const PollCard = ({
                   onClick={openExternal}
                   sx={{
                     fontSize: "24px",
-                    color: "white",
+                    color: theme.palette.text.primary,
                   }}
                 />
               </ButtonBase>
@@ -171,7 +172,7 @@ export const PollCard = ({
             Created by {ownerName || poll?.info?.owner}
           </Typography>
         </Box>
-        <Divider sx={{ borderColor: "rgb(255 255 255 / 10%)" }} />
+        <Divider sx={{ borderColor: theme.palette.divider }} />
         <Box
           sx={{
             display: "flex",
@@ -263,7 +264,7 @@ export const PollCard = ({
                   control={
                     <Radio
                       sx={{
-                        color: "white", // Unchecked color
+                        color: theme.palette.text.primary, // Unchecked color
                         "&.Mui-checked": {
                           color: "var(--green)", // Checked color
                         },
@@ -346,6 +347,7 @@ export const PollCard = ({
   };
   
   const PollResults = ({ votes }) => {
+    const theme = useTheme();
     const maxVotes = Math.max(
       ...votes?.voteCounts?.map((option) => option.voteCount)
     );
@@ -374,7 +376,7 @@ export const PollCard = ({
                 sx={{
                   mt: 1,
                   height: 10,
-                  backgroundColor: "var(--background-paper)",
+                  backgroundColor: theme.palette.divider,
                   borderRadius: 5,
                   overflow: "hidden",
                 }}
@@ -383,7 +385,10 @@ export const PollCard = ({
                   sx={{
                     width: `${(option.voteCount / maxVotes) * 100}%`,
                     height: "100%",
-                    backgroundColor: index === 0 ? "#3f51b5" : "#f50057",
+                    backgroundColor:
+                      index === 0
+                        ? theme.palette.primary.main
+                        : theme.palette.secondary.main,
                     transition: "width 0.3s ease-in-out",
                   }}
                 />

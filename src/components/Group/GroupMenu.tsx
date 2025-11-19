@@ -7,6 +7,7 @@ import {
   ListItemText,
   Badge,
   Box,
+  useTheme,
 } from "@mui/material";
 import ForumIcon from "@mui/icons-material/Forum";
 import GroupIcon from "@mui/icons-material/Group";
@@ -18,6 +19,7 @@ import { MembersIcon } from "../../assets/Icons/MembersIcon";
 import { AdminsIcon } from "../../assets/Icons/AdminsIcon";
 
 export const GroupMenu = ({ setGroupSection, groupSection, setOpenManageMembers, goToAnnouncements, goToChat, hasUnreadChat, hasUnreadAnnouncements }) => {
+  const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -209,7 +211,7 @@ export const GroupMenu = ({ setGroupSection, groupSection, setOpenManageMembers,
           <ListItemIcon sx={{
             minWidth: '24px !important'
           }}>
-                     <AdminsIcon  color={"#fff"} height={15} width={15} />
+                     <AdminsIcon  color={theme.palette.text.primary} height={15} width={15} />
 
           </ListItemIcon>
           <ListItemText sx={{
