@@ -648,10 +648,28 @@ url
 
 
 }
-      
-        const resGroupDecryptResource = decryptSingle({
-          data64, secretKeyObject: secretKeyObject, skipDecodeBase64: true
-        })
+
+  const cacheKey = isAdmins ? `admins-${groupId}` : groupId;
+  let resGroupDecryptResource;
+  try {
+    resGroupDecryptResource = await decryptSingle({
+      data64,
+      secretKeyObject: secretKeyObject,
+      skipDecodeBase64: true,
+    });
+  } catch (error) {
+    if (!refreshCache) {
+      delete groupSecretkeys[cacheKey];
+      return await decryptQortalGroupData(
+        {
+          ...data,
+          refreshCache: true,
+        },
+        sender
+      );
+    }
+    throw error;
+  }
   if (resGroupDecryptResource) {
     return resGroupDecryptResource;
   } else {

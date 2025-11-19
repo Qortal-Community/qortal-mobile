@@ -2959,6 +2959,7 @@ export async function setGroupData({
   secretKeyData,
   secretKeyResource,
   admins,
+  secretKeyObject,
 }) {
   const wallet = await getSaveWallet();
   const address = wallet.address0;
@@ -2969,14 +2970,35 @@ export async function setGroupData({
     secretKeyData,
     secretKeyResource,
   };
-  return await new Promise((resolve, reject) => {
-    storeData(`group-data-${address}`, data)
-  .then(() => resolve(true))
-  .catch((error) => {
-    reject(new Error(error.message || "Error saving data"));
+  await storeData(`group-data-${address}`, data).catch((error) => {
+    throw new Error(error.message || "Error saving data");
   });
 
-  });
+  try {
+    const cacheKey =
+      secretKeyResource?.identifier &&
+      secretKeyResource.identifier.includes('admins-symmetric-qchat-group-')
+        ? `admins-${groupId}`
+        : groupId;
+    let parsedSecretKey = secretKeyObject;
+    if (!parsedSecretKey && secretKeyData) {
+      const decryptedKey: any = await decryptGroupEncryption({
+        data: secretKeyData,
+      });
+      const dataint8Array = base64ToUint8Array(decryptedKey.data);
+      parsedSecretKey = uint8ArrayToObject(dataint8Array);
+    }
+    if (parsedSecretKey && cacheKey) {
+      groupSecretkeys[cacheKey] = {
+        secretKeyObject: parsedSecretKey,
+        timestamp: Date.now(),
+      };
+    }
+  } catch (error) {
+    console.error("Error syncing cached group secret key", error);
+  }
+
+  return true;
 }
 
 export async function addTimestampEnterChat({ groupId, timestamp }) {
