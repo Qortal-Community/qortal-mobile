@@ -82,7 +82,7 @@ export const AppsHome = ({  setMode, myApp, myWebsite, availableQapps, myName, m
           display: 'flex',
           gap: '20px',
           alignItems: 'center',
-          backgroundColor: '#1f2023',
+          backgroundColor: 'var(--bg-primary)',
           padding: '4px 7px',
           borderRadius: '20px',
           width: '100%',

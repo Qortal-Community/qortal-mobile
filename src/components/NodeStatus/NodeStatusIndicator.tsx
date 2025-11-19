@@ -250,9 +250,9 @@ export const NodeStatusIndicator = () => {
           paper: {
             sx: {
               backgroundColor: "var(--bg-primary)",
-              color: "#fff",
+              color: "var(--text-primary)",
               borderRadius: "10px",
-              border: "1px solid rgba(255, 255, 255, 0.08)",
+              border: "1px solid var(--sidebar-border)",
               minWidth: 260,
               padding: "16px",
             },

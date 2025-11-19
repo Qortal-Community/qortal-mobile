@@ -150,7 +150,7 @@ export const SelectInstanceContainerInner = styled(Box)(({ theme }) => ({
   transition: "all 0.2s",
   "&:hover": {
     borderRadius: "8px",
-    background: "#434448",
+    background: "var(--background-surface)",
   },
 }));
 export const SelectInstanceContainerFilterInner = styled(Box)(({ theme }) => ({
@@ -184,7 +184,7 @@ export const MailMessageRowContainer = styled(Box)(({ theme }) => ({
   transition: "background 0.2s",
   gap: "10px",
   "&:hover": {
-    background: "#434448",
+    background: "var(--background-surface)",
   },
 }));
 export const MailMessageRowProfile = styled(Box)(({ theme }) => ({

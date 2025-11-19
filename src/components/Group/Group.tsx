@@ -1971,11 +1971,11 @@ export const Group = ({
                   width: "100%",
                   flexDirection: "column",
                   cursor: "pointer",
-                  border: "1px #232428 solid",
+                  border: "1px solid var(--sidebar-border)",
                   padding: "2px",
                   borderRadius: "2px",
                   background:
-                    direct?.address === selectedDirect?.address && "white",
+                    direct?.address === selectedDirect?.address && "var(--background-paper)",
                 }}
               >
                 <Box
@@ -1988,7 +1988,7 @@ export const Group = ({
                   <ListItemAvatar>
                     <Avatar
                       sx={{
-                        background: "#232428",
+                        background: "var(--bg-2)",
                         color: "white",
                         cursor: directAvatarUrl && isDirectAvatarLoaded ? "pointer" : "default",
                         "& img": {
@@ -2262,11 +2262,11 @@ export const Group = ({
                   width: "100%",
                   flexDirection: "column",
                   cursor: "pointer",
-                  border: "1px #232428 solid",
+                  border: "1px solid var(--sidebar-border)",
                   padding: "2px",
                   borderRadius: "2px",
                   background:
-                    group?.groupId === selectedGroup?.groupId && "white",
+                    group?.groupId === selectedGroup?.groupId && "var(--background-paper)",
                 }}
               >
                 <ContextMenu
@@ -2293,7 +2293,7 @@ export const Group = ({
                           sx={{
                             width: "40px",
                             height: "40px",
-                            background: "#232428",
+                            background: "var(--bg-2)",
                             color: "white",
                             cursor: groupAvatarUrl && isGroupAvatarLoaded ? "pointer" : "default",
                             "& img": {
@@ -2338,7 +2338,7 @@ export const Group = ({
                             width: "20px",
                             height: "20px",
                             borderRadius: "50%",
-                            background: "#1b1c20",
+                            background: "var(--background-default)",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -2641,7 +2641,7 @@ export const Group = ({
                   right: "0px",
                   bottom: "0px",
                   top: "0px",
-                  background: "#27282c",
+                  background: "var(--bg-primary)",
                   zIndex: 5,
                   height: isMobile && `calc(${rootHeight} - 45px)`,
                 }}
@@ -2986,7 +2986,7 @@ export const Group = ({
                   right: "0px",
                   bottom: "0px",
                   top: "0px",
-                  background: "#27282c",
+                  background: "var(--bg-primary)",
                   zIndex: 5,
                   height: isMobile && `calc(${rootHeight} - 45px)`,
                 }}

@@ -11,17 +11,17 @@ import { executeEvent } from "../utils/events";
 
 const CustomStyledMenu = styled(Menu)(({ theme }) => ({
   "& .MuiPaper-root": {
-    backgroundColor: "#f9f9f9",
+    backgroundColor: theme.palette.background.paper,
     borderRadius: "12px",
     padding: theme.spacing(1),
-    boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
+    boxShadow: theme.shadows[4],
   },
   "& .MuiMenuItem-root": {
     fontSize: "14px", // Smaller font size for the menu item text
-    color: "#444",
+    color: theme.palette.text.primary,
     transition: "0.3s background-color",
     "&:hover": {
-      backgroundColor: "#f0f0f0", // Explicit hover state
+      backgroundColor: theme.palette.action.hover, // Explicit hover state
     },
   },
 }));

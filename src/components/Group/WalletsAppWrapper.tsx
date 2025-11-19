@@ -71,7 +71,7 @@ export const WalletsAppWrapper = () => {
             maxHeight: "100vh",
             width: "1200px",
             maxWidth: "100vw",
-            backgroundColor: "#27282c",
+            backgroundColor: "var(--bg-primary)",
             zIndex: 100,
             bottom: 0,
             right: 0,

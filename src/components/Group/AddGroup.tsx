@@ -191,7 +191,7 @@ export const AddGroup = ({ address, open, setOpen }) => {
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "relative", bgcolor: "#232428" }}>
+        <AppBar sx={{ position: "relative", bgcolor: "var(--bg-2)" }}>
           <Toolbar>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               Group Mgmt
@@ -213,7 +213,7 @@ export const AddGroup = ({ address, open, setOpen }) => {
         </AppBar>
         <Box
           sx={{
-            bgcolor: "#27282c",
+            bgcolor: "var(--bg-primary)",
             flexGrow: 1,
             overflowY: "auto",
             color: "white",

@@ -141,7 +141,7 @@ export const AttachmentCard = ({
     return (
       <Card
         sx={{
-          backgroundColor: "#1F2023",
+          backgroundColor: "var(--bg-primary)",
           height: "250px",
           // height: isOpen ? "auto" : "150px",
         }}

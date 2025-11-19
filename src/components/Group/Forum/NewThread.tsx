@@ -410,7 +410,7 @@ export const NewThread = ({
           maxWidth: "950px",
           height: "700px",
           borderRadius: "12px 12px 0px 0px",
-          background: "#434448",
+          background: "var(--background-surface)",
           padding: "0px",
           gap: "0px",
         }}
@@ -422,7 +422,7 @@ export const NewThread = ({
             flexDirection: "row",
             alignItems: 'center',
             justifyContent: "space-between",
-            backgroundColor: "#434448",
+            backgroundColor: "var(--background-surface)",
           }}
         >
           <NewMessageHeaderP>
@@ -436,7 +436,7 @@ export const NewThread = ({
         </InstanceListHeader>
         <InstanceListContainer
           sx={{
-            backgroundColor: "#434448",
+            backgroundColor: "var(--background-surface)",
             padding: isMobile ? '5px' : "20px 42px",
             height: "calc(100% - 165px)",
             flexShrink: 0,
@@ -515,7 +515,7 @@ export const NewThread = ({
         </InstanceListContainer>
         <InstanceFooter
           sx={{
-            backgroundColor: "#434448",
+            backgroundColor: "var(--background-surface)",
             padding: isMobile ? '5px' :  "20px 42px",
             alignItems: "center",
             height: isMobile ? 'auto' :  "90px",

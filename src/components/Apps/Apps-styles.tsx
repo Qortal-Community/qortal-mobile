@@ -53,16 +53,16 @@ import {
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   }));
-  export const AppsSearchContainer = styled(Box)(({ theme }) => ({
-    display: "flex",
-    width: "90%",
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    backgroundColor: '#434343',
-    borderRadius: '8px',
-    padding: '0px 10px',
-    height: '36px'
-  }));
+export const AppsSearchContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  width: "90%",
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  backgroundColor: theme.palette.background.paper,
+  borderRadius: '8px',
+  padding: '0px 10px',
+  height: '36px'
+}));
   export const AppsSearchLeft = styled(Box)(({ theme }) => ({
     display: "flex",
     width: "90%",
@@ -107,8 +107,8 @@ import {
     fontWeight: 500,
     lineHeight: 1.2,
   }));
-  export const AppCircle = styled(Box)(({ theme }) => ({
-    display: "flex",
+export const AppCircle = styled(Box)(({ theme }) => ({
+  display: "flex",
       width: "60px",
       flexDirection: "column",
       height: "60px",
@@ -116,8 +116,8 @@ import {
       justifyContent: 'center',
       borderRadius: '50%',
       backgroundColor: "var(--apps-circle)",
-      border: '1px solid #FFFFFF'
-  }));
+      border: `1px solid ${theme.palette.text.primary}`
+}));
 
   export const AppInfoSnippetContainer = styled(Box)(({ theme }) => ({
     display: "flex",
@@ -192,7 +192,7 @@ import {
     alignItems: 'center',
     width: '100%',
     height: '60px',
-    backgroundColor: '#1F2023',
+    backgroundColor: 'var(--bg-primary)',
     padding: '0px 10px',
     position: "fixed",
     bottom: 0,

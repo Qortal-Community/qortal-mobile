@@ -6,10 +6,13 @@ import com.github.Qortal.qortalMobile.NativePOW;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import androidx.core.splashscreen.SplashScreen;
 
 public class MainActivity extends BridgeActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        SplashScreen.installSplashScreen(this);
+        ThemePreferenceManager.applyPreferredTheme(this);
         registerPlugin(NativeBcrypt.class);
         registerPlugin(NativePOW.class);
         super.onCreate(savedInstanceState);

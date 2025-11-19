@@ -655,7 +655,7 @@ export const ListOfGroupPromotions = () => {
                                 >
                                   <Avatar
                                     sx={{
-                                      backgroundColor: "#27282c",
+                                      backgroundColor: "var(--bg-primary)",
                                       color: "white",
                                     }}
                                     alt={promotion?.name}

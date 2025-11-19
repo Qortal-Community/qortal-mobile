@@ -9,6 +9,7 @@ import {
   Divider,
   Dialog,
   IconButton,
+  useTheme,
 
 } from "@mui/material";
 import QuickPinchZoom,  { make3dTransformValue } from "react-quick-pinch-zoom";
@@ -32,6 +33,7 @@ export const ImageCard = ({
     errorMsg,
     encryptionType,
   }) => {
+    const theme = useTheme();
     const [isOpen, setIsOpen] = useState(true);
     const [height, setHeight] = useState('400px')
     useEffect(() => {
@@ -49,7 +51,7 @@ export const ImageCard = ({
     return (
       <Card
         sx={{
-          backgroundColor: "#1F2023",
+          backgroundColor: theme.palette.background.paper,
           height: height,
           transition: "height 0.6s ease-in-out",
           display: 'flex',
@@ -73,7 +75,7 @@ export const ImageCard = ({
           >
             <ImageIcon
               sx={{
-                color: "white",
+                color: theme.palette.text.primary,
               }}
             />
             <Typography>IMAGE embed</Typography>
@@ -90,7 +92,7 @@ export const ImageCard = ({
                 onClick={refresh}
                 sx={{
                   fontSize: "24px",
-                  color: "white",
+                  color: theme.palette.text.primary,
                 }}
               />
             </ButtonBase>
@@ -100,7 +102,7 @@ export const ImageCard = ({
                   onClick={openExternal}
                   sx={{
                     fontSize: "24px",
-                    color: "white",
+                    color: theme.palette.text.primary,
                   }}
                 />
               </ButtonBase>
@@ -115,7 +117,7 @@ export const ImageCard = ({
           <Typography
             sx={{
               fontSize: "12px",
-              color: "white",
+              color: theme.palette.text.primary,
             }}
           >
             Created by {decodeIfEncoded(owner)}
@@ -123,13 +125,13 @@ export const ImageCard = ({
           <Typography
             sx={{
               fontSize: "12px",
-              color: "cadetblue",
+              color: theme.palette.primary.main,
             }}
           >
             {encryptionType === 'private' ? "ENCRYPTED" : encryptionType === 'group' ? 'GROUP ENCRYPTED' : "Not encrypted"}
           </Typography>
         </Box>
-        <Divider sx={{ borderColor: "rgb(255 255 255 / 10%)" }} />
+        <Divider sx={{ borderColor: theme.palette.divider }} />
         <Box
           sx={{
             display: "flex",
@@ -191,7 +193,8 @@ export const ImageCard = ({
     );
   };
 
-  export function ImageViewer({ src, alt = "" }) {
+export function ImageViewer({ src, alt = "" }) {
+    const theme = useTheme();
     const [isFullscreen, setIsFullscreen] = useState(false);
     const imgRef = useRef(null);
   
@@ -255,7 +258,7 @@ export const ImageCard = ({
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
-              backgroundColor: "#000", 
+              backgroundColor: theme.palette.background.default, 
             }}
           >
             {/* Close Button */}
@@ -266,8 +269,8 @@ export const ImageCard = ({
                 top: 8,
                 right: 8,
                 zIndex: 10,
-                color: "white",
-                background: 'rgb(29, 29, 29)',
+                color: theme.palette.text.primary,
+                background: theme.palette.background.paper,
                 borderRadius: '50%',
                 padding: '5px'
               }}

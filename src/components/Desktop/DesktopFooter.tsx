@@ -1,10 +1,5 @@
 import * as React from "react";
-import {
-  BottomNavigation,
-  BottomNavigationAction,
-  ButtonBase,
-  Typography,
-} from "@mui/material";
+import { ButtonBase, Typography, useTheme } from "@mui/material";
 import { Home, Groups, Message, ShowChart } from "@mui/icons-material";
 import Box from "@mui/material/Box";
 import BottomLogo from "../../assets/svgs/BottomLogo5.svg";
@@ -19,6 +14,8 @@ import { HomeIcon } from "../../assets/Icons/HomeIcon";
 import { Save } from "../Save/Save";
 
 export const IconWrapper = ({ children, label, color, selected }) => {
+  const theme = useTheme();
+  const resolvedColor = color || theme.palette.text.secondary;
   return (
     <Box
       sx={{
@@ -30,7 +27,8 @@ export const IconWrapper = ({ children, label, color, selected }) => {
         height: "89px",
         width: "89px",
         borderRadius: "50%",
-        backgroundColor: selected ? "rgba(28, 29, 32, 1)" : "transparent",
+        backgroundColor: selected ? theme.palette.background.paper : "transparent",
+        border: selected ? `1px solid ${theme.palette.divider}` : "none",
       }}
     >
       {children}
@@ -39,7 +37,7 @@ export const IconWrapper = ({ children, label, color, selected }) => {
           fontFamily: "Inter",
           fontSize: "12px",
           fontWeight: 500,
-          color: color,
+          color: selected ? theme.palette.text.primary : resolvedColor,
         }}
       >
         {label}
@@ -81,6 +79,7 @@ export const DesktopFooter = ({
   setIsOpenSideViewGroups
   
 }) => {
+  const theme = useTheme();
   
   if(hide) return
   return (
@@ -94,6 +93,8 @@ export const DesktopFooter = ({
         height: "100px", // Footer height
         zIndex: 1,
         justifyContent: "center",
+        backgroundColor: theme.palette.background.default,
+        borderTop: `1px solid ${theme.palette.divider}`,
       }}
     >
       <Box
@@ -108,13 +109,13 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color={theme.palette.text.secondary}
             label="Home"
             selected={isHome}
           >
             <HomeIcon
               height={30}
-              color={isHome ? "white" : "rgba(250, 250, 250, 0.5)"}
+              color={isHome ? theme.palette.text.primary : theme.palette.text.secondary}
             />
           </IconWrapper>
         </ButtonBase>
@@ -126,11 +127,11 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color={theme.palette.text.secondary}
             label="Apps"
             selected={isApps}
           >
-          <img src={AppIcon} />
+            <img src={AppIcon} />
           </IconWrapper>
         </ButtonBase>
         <ButtonBase
@@ -139,7 +140,7 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color={theme.palette.text.secondary}
             label="Groups"
             selected={isGroups}
           >
@@ -149,8 +150,8 @@ export const DesktopFooter = ({
                 hasUnreadGroups
                   ? "var(--unread)"
                   : isGroups
-                  ? "white"
-                  : "rgba(250, 250, 250, 0.5)"
+                  ? theme.palette.text.primary
+                  : theme.palette.text.secondary
               }
             />
           </IconWrapper>
@@ -161,7 +162,7 @@ export const DesktopFooter = ({
           }}
         >
           <IconWrapper
-            color="rgba(250, 250, 250, 0.5)"
+            color={theme.palette.text.secondary}
             label="Messaging"
             selected={isDirects}
           >
@@ -171,8 +172,8 @@ export const DesktopFooter = ({
                 hasUnreadDirects
                   ? "var(--unread)"
                   : isDirects
-                  ? "white"
-                  : "rgba(250, 250, 250, 0.5)"
+                  ? theme.palette.text.primary
+                  : theme.palette.text.secondary
               }
             />
           </IconWrapper>
